@@ -1,0 +1,24 @@
+{
+  "name": "doc-pdf-generator",
+  "version": "1.0.0",
+  "description": "Command line script for generating document PDFs",
+  "main": "app.js",
+  "scripts": {
+    "tsc": "tsc",
+    "run": "tsc && node ./app.js && open ./example.pdf",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Samsara",
+  "license": "ISC",
+  "devDependencies": {
+    "tslint": "^6.1.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@react-pdf/renderer": "^1.6.8",
+    "@types/node": "^13.9.0",
+    "@types/react": "^16.9.23",
+    "moment": "^2.24.0",
+    "react": "^16.13.0"
+  }
+}
