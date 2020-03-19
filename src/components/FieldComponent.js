@@ -16,4 +16,3 @@ const FieldComponent = ({ field }) => {
     return react_1.default.createElement(SimpleFieldItem_1.default, { label: field.details.label, value: value });
 };
 exports.default = FieldComponent;
-//# sourceMappingURL=FieldComponent.js.map

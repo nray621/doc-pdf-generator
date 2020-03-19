@@ -36,4 +36,3 @@ const MediaFieldComponent = ({ field }) => {
     })));
 };
 exports.default = MediaFieldComponent;
-//# sourceMappingURL=MediaFieldComponent.js.map

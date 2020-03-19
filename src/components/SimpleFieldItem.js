@@ -24,4 +24,3 @@ const SimpleFieldItem = ({ label, value }) => {
         react_1.default.createElement(renderer_1.Text, { style: styles.valueText }, value)));
 };
 exports.default = SimpleFieldItem;
-//# sourceMappingURL=SimpleFieldItem.js.map

@@ -55,4 +55,3 @@ const SignatureFieldComponent = ({ field }) => {
                 react_1.default.createElement(renderer_1.Text, null, "No signature entered")));
 };
 exports.default = SignatureFieldComponent;
-//# sourceMappingURL=SignatureFieldComponent.js.map

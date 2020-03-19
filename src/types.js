@@ -10,4 +10,3 @@ var DocumentFieldType;
     DocumentFieldType["SignatureFieldType"] = "signatureFieldType";
     DocumentFieldType["NotesFieldType"] = "notesFieldType";
 })(DocumentFieldType = exports.DocumentFieldType || (exports.DocumentFieldType = {}));
-//# sourceMappingURL=types.js.map
