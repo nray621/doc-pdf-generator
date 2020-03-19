@@ -2,11 +2,11 @@ import React from 'react'
 import moment from 'moment'
 
 import ReactPDF, { Page, Text, View, Document, Font, StyleSheet } from '@react-pdf/renderer';
-import FieldComponent from './src/components/FieldComponent'
+import GenericFieldComponent from './src/components/GenericFieldComponent/GenericFieldComponent'
 import { DriverDocumentQuery } from './src/types'
 import { parseDocumentFields } from './src/util'
-import SimpleFieldItem from './src/components/SimpleFieldItem';
-import MediaFieldComponent from './src/components/MediaFieldComponent';
+import SimpleFieldItem from './src/components/SimpleFieldComponent/SimpleFieldComponent';
+import MediaFieldComponent from './src/components/MediaFieldComponent/MediaFieldComponent';
 const path = process.argv[2] || './demo.json'
 const sampleJSON = require(path) // using static sample JSON (from a real query) for easier development for now
 
@@ -66,64 +66,69 @@ const styles = StyleSheet.create({
   },
 });
 
+if (!sampleJSON?.data) {
+  console.error('Invalid JSON')
+  process.exit(1)
+}
+
 const docQueryData: DriverDocumentQuery = sampleJSON.data
 const document = docQueryData.group?.organization.driverDocument
 
 if (!document) {
   console.error('Invalid JSON')
-} else {
-  const { mediaFields, nonMediaFields } = parseDocumentFields(document)
-  const updatedAt = moment(document?.serverUpdatedAtMs).format('LLL')
-  const submittedAt = moment(document?.driverCreatedAtMs).format('LLL')
-
-  const DocumentPDF = () => (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {/* Header */}
-        <View style={[styles.section, styles.headerContainer]}>
-          <Text style={styles.header}>{document?.template?.name}</Text>
-          <Text style={styles.header}>{docQueryData.group?.organization.name}</Text>
-        </View>
-
-        {/* Submission Details */}
-        <View style={styles.section}>
-          <Text style={styles.subheader}>Submission Details</Text>
-          <SimpleFieldItem label="Driver" value={document?.driverName || 'No driver data'} />
-          <SimpleFieldItem label="Vehicle" value={document?.vehicle?.id.toString() || 'No vehicle data'} />
-          <SimpleFieldItem label="Updated At" value={updatedAt} />
-          <SimpleFieldItem label="Submitted At" value={submittedAt} />
-          <SimpleFieldItem label="Notes" value={document?.notes || ''} />
-        </View>
-
-        {/* Field Values */}
-        <View style={[styles.section, { borderWidth: 0 }]}>
-          <Text style={styles.subheader}>Document Form Details</Text>
-          {nonMediaFields.map((field, idx) => <FieldComponent field={field} key={field.details.label + idx}/>)}
-        </View>
-        {/* Media fields with values are rendered on their own page */}
-        {mediaFields.map((field, idx) => <MediaFieldComponent field={field} key={field.details.label + idx} />)}
-
-        {/* Page numbers */}
-        <Text
-          fixed
-          style={styles.pageNumber}
-          render={({ pageNumber, totalPages }) => (
-            `Page ${pageNumber} of ${totalPages}`
-          )}
-        />
-      </Page>
-    </Document>
-  );
-
-  ReactPDF.render(<DocumentPDF />, `./example.pdf`)
-    .then(() => {
-      // TODO: what exactly do we want to return / log on success
-      console.log('SUCCESS')
-    })
-    .catch(err => {
-      // TODO: what exactly do we want to return / log on failure
-      console.log('ERROR: ', err.message)
-    })
+  process.exit(1)
 }
+
+const { mediaFields, nonMediaFields } = parseDocumentFields(document)
+const updatedAt = moment(document?.serverUpdatedAtMs).format('LLL')
+const submittedAt = moment(document?.driverCreatedAtMs).format('LLL')
+
+const DocumentPDF = () => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      {/* Header */}
+      <View style={[styles.section, styles.headerContainer]}>
+        <Text style={styles.header}>{document?.template?.name}</Text>
+        <Text style={styles.header}>{docQueryData.group?.organization.name}</Text>
+      </View>
+
+      {/* Submission Details */}
+      <View style={styles.section}>
+        <Text style={styles.subheader}>Submission Details</Text>
+        <SimpleFieldItem label="Driver" value={document?.driverName || 'No driver data'} />
+        <SimpleFieldItem label="Vehicle" value={document?.vehicle?.id.toString() || 'No vehicle data'} />
+        <SimpleFieldItem label="Updated At" value={updatedAt} />
+        <SimpleFieldItem label="Submitted At" value={submittedAt} />
+        <SimpleFieldItem label="Notes" value={document?.notes || ''} />
+      </View>
+
+      {/* Field Values */}
+      <View style={[styles.section, { borderWidth: 0 }]}>
+        <Text style={styles.subheader}>Document Form Details</Text>
+        {nonMediaFields.map((field, idx) => <GenericFieldComponent field={field} key={field.details.label + idx}/>)}
+      </View>
+      {/* Media fields with values are rendered on their own page */}
+      {mediaFields.map((field, idx) => <MediaFieldComponent field={field} key={field.details.label + idx} />)}
+
+      {/* Page numbers */}
+      <Text
+        fixed
+        style={styles.pageNumber}
+        render={({ pageNumber, totalPages }) => (
+          `Page ${pageNumber} of ${totalPages}`
+        )}
+      />
+    </Page>
+  </Document>
+);
+
+ReactPDF.render(<DocumentPDF />, `./example.pdf`)
+  .then(() => {
+    // TODO: what exactly do we want to return / log on success
+    console.log('SUCCESS')
+  })
+  .catch(err => {
+    console.log('ERROR: ', err.message)
+  })
 
 

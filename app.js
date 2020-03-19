@@ -14,10 +14,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
 const moment_1 = __importDefault(require("moment"));
 const renderer_1 = __importStar(require("@react-pdf/renderer"));
-const FieldComponent_1 = __importDefault(require("./src/components/FieldComponent"));
+const GenericFieldComponent_1 = __importDefault(require("./src/components/GenericFieldComponent/GenericFieldComponent"));
 const util_1 = require("./src/util");
-const SimpleFieldItem_1 = __importDefault(require("./src/components/SimpleFieldItem"));
-const MediaFieldComponent_1 = __importDefault(require("./src/components/MediaFieldComponent"));
+const SimpleFieldComponent_1 = __importDefault(require("./src/components/SimpleFieldComponent/SimpleFieldComponent"));
+const MediaFieldComponent_1 = __importDefault(require("./src/components/MediaFieldComponent/MediaFieldComponent"));
 const path = process.argv[2] || './demo.json';
 const sampleJSON = require(path); // using static sample JSON (from a real query) for easier development for now
 // TODO: decide how we'd like to handle JSON CLI argument
@@ -73,42 +73,44 @@ const styles = renderer_1.StyleSheet.create({
         color: '#A1A3A6',
     },
 });
+if (!(sampleJSON === null || sampleJSON === void 0 ? void 0 : sampleJSON.data)) {
+    console.error('Invalid JSON');
+    process.exit(1);
+}
 const docQueryData = sampleJSON.data;
 const document = (_a = docQueryData.group) === null || _a === void 0 ? void 0 : _a.organization.driverDocument;
 if (!document) {
     console.error('Invalid JSON');
+    process.exit(1);
 }
-else {
-    const { mediaFields, nonMediaFields } = util_1.parseDocumentFields(document);
-    const updatedAt = moment_1.default(document === null || document === void 0 ? void 0 : document.serverUpdatedAtMs).format('LLL');
-    const submittedAt = moment_1.default(document === null || document === void 0 ? void 0 : document.driverCreatedAtMs).format('LLL');
-    const DocumentPDF = () => {
-        var _a, _b, _c;
-        return (react_1.default.createElement(renderer_1.Document, null,
-            react_1.default.createElement(renderer_1.Page, { size: "A4", style: styles.page },
-                react_1.default.createElement(renderer_1.View, { style: [styles.section, styles.headerContainer] },
-                    react_1.default.createElement(renderer_1.Text, { style: styles.header }, (_a = document === null || document === void 0 ? void 0 : document.template) === null || _a === void 0 ? void 0 : _a.name),
-                    react_1.default.createElement(renderer_1.Text, { style: styles.header }, (_b = docQueryData.group) === null || _b === void 0 ? void 0 : _b.organization.name)),
-                react_1.default.createElement(renderer_1.View, { style: styles.section },
-                    react_1.default.createElement(renderer_1.Text, { style: styles.subheader }, "Submission Details"),
-                    react_1.default.createElement(SimpleFieldItem_1.default, { label: "Driver", value: (document === null || document === void 0 ? void 0 : document.driverName) || 'No driver data' }),
-                    react_1.default.createElement(SimpleFieldItem_1.default, { label: "Vehicle", value: ((_c = document === null || document === void 0 ? void 0 : document.vehicle) === null || _c === void 0 ? void 0 : _c.id.toString()) || 'No vehicle data' }),
-                    react_1.default.createElement(SimpleFieldItem_1.default, { label: "Updated At", value: updatedAt }),
-                    react_1.default.createElement(SimpleFieldItem_1.default, { label: "Submitted At", value: submittedAt }),
-                    react_1.default.createElement(SimpleFieldItem_1.default, { label: "Notes", value: (document === null || document === void 0 ? void 0 : document.notes) || '' })),
-                react_1.default.createElement(renderer_1.View, { style: [styles.section, { borderWidth: 0 }] },
-                    react_1.default.createElement(renderer_1.Text, { style: styles.subheader }, "Document Form Details"),
-                    nonMediaFields.map((field, idx) => react_1.default.createElement(FieldComponent_1.default, { field: field, key: field.details.label + idx }))),
-                mediaFields.map((field, idx) => react_1.default.createElement(MediaFieldComponent_1.default, { field: field, key: field.details.label + idx })),
-                react_1.default.createElement(renderer_1.Text, { fixed: true, style: styles.pageNumber, render: ({ pageNumber, totalPages }) => (`Page ${pageNumber} of ${totalPages}`) }))));
-    };
-    renderer_1.default.render(react_1.default.createElement(DocumentPDF, null), `./example.pdf`)
-        .then(() => {
-        // TODO: what exactly do we want to return / log on success
-        console.log('SUCCESS');
-    })
-        .catch(err => {
-        // TODO: what exactly do we want to return / log on failure
-        console.log('ERROR: ', err.message);
-    });
-}
+const { mediaFields, nonMediaFields } = util_1.parseDocumentFields(document);
+const updatedAt = moment_1.default(document === null || document === void 0 ? void 0 : document.serverUpdatedAtMs).format('LLL');
+const submittedAt = moment_1.default(document === null || document === void 0 ? void 0 : document.driverCreatedAtMs).format('LLL');
+const DocumentPDF = () => {
+    var _a, _b, _c;
+    return (react_1.default.createElement(renderer_1.Document, null,
+        react_1.default.createElement(renderer_1.Page, { size: "A4", style: styles.page },
+            react_1.default.createElement(renderer_1.View, { style: [styles.section, styles.headerContainer] },
+                react_1.default.createElement(renderer_1.Text, { style: styles.header }, (_a = document === null || document === void 0 ? void 0 : document.template) === null || _a === void 0 ? void 0 : _a.name),
+                react_1.default.createElement(renderer_1.Text, { style: styles.header }, (_b = docQueryData.group) === null || _b === void 0 ? void 0 : _b.organization.name)),
+            react_1.default.createElement(renderer_1.View, { style: styles.section },
+                react_1.default.createElement(renderer_1.Text, { style: styles.subheader }, "Submission Details"),
+                react_1.default.createElement(SimpleFieldComponent_1.default, { label: "Driver", value: (document === null || document === void 0 ? void 0 : document.driverName) || 'No driver data' }),
+                react_1.default.createElement(SimpleFieldComponent_1.default, { label: "Vehicle", value: ((_c = document === null || document === void 0 ? void 0 : document.vehicle) === null || _c === void 0 ? void 0 : _c.id.toString()) || 'No vehicle data' }),
+                react_1.default.createElement(SimpleFieldComponent_1.default, { label: "Updated At", value: updatedAt }),
+                react_1.default.createElement(SimpleFieldComponent_1.default, { label: "Submitted At", value: submittedAt }),
+                react_1.default.createElement(SimpleFieldComponent_1.default, { label: "Notes", value: (document === null || document === void 0 ? void 0 : document.notes) || '' })),
+            react_1.default.createElement(renderer_1.View, { style: [styles.section, { borderWidth: 0 }] },
+                react_1.default.createElement(renderer_1.Text, { style: styles.subheader }, "Document Form Details"),
+                nonMediaFields.map((field, idx) => react_1.default.createElement(GenericFieldComponent_1.default, { field: field, key: field.details.label + idx }))),
+            mediaFields.map((field, idx) => react_1.default.createElement(MediaFieldComponent_1.default, { field: field, key: field.details.label + idx })),
+            react_1.default.createElement(renderer_1.Text, { fixed: true, style: styles.pageNumber, render: ({ pageNumber, totalPages }) => (`Page ${pageNumber} of ${totalPages}`) }))));
+};
+renderer_1.default.render(react_1.default.createElement(DocumentPDF, null), `./example.pdf`)
+    .then(() => {
+    // TODO: what exactly do we want to return / log on success
+    console.log('SUCCESS');
+})
+    .catch(err => {
+    console.log('ERROR: ', err.message);
+});

@@ -1,4 +1,4 @@
-import { DocumentMediaUploadField } from "../types"
+import { DocumentMediaUploadField } from "../../types"
 import React from 'react'
 import { Text, Image, StyleSheet, View } from '@react-pdf/renderer';
 

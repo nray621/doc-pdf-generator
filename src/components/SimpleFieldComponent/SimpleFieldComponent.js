@@ -18,9 +18,7 @@ const styles = renderer_1.StyleSheet.create({
         paddingRight: 15,
     }
 });
-const SimpleFieldItem = ({ label, value }) => {
-    return (react_1.default.createElement(renderer_1.View, { style: styles.fieldItem, wrap: false },
-        react_1.default.createElement(renderer_1.Text, { style: styles.labelText }, label),
-        react_1.default.createElement(renderer_1.Text, { style: styles.valueText }, value)));
-};
-exports.default = SimpleFieldItem;
+const SimpleFieldComponent = ({ label, value }) => (react_1.default.createElement(renderer_1.View, { style: styles.fieldItem, wrap: false },
+    react_1.default.createElement(renderer_1.Text, { style: styles.labelText }, label),
+    react_1.default.createElement(renderer_1.Text, { style: styles.valueText }, value)));
+exports.default = SimpleFieldComponent;

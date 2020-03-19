@@ -1,4 +1,4 @@
-import { DocumentSignatureField } from "../types"
+import { DocumentSignatureField } from "../../types"
 import React from 'react'
 import { Text, View, Image, StyleSheet } from '@react-pdf/renderer';
 import moment from "moment";
