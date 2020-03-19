@@ -1,27 +1,7 @@
 import { DocumentMediaUploadField } from "../../types"
 import React from 'react'
-import { Text, Image, StyleSheet, View } from '@react-pdf/renderer';
-
-const styles = StyleSheet.create({
-  fieldItem: {
-    width: '100%',
-    borderWidth: 1,
-    borderColor: 'red',
-  },
-  image: {
-    marginTop: 5,
-    flex: 1,
-  },
-  labelText: {
-    fontFamily: 'Roboto-bold',
-  },
-  page: {
-    padding: 20,
-    flexDirection: 'column',
-    fontSize: 11,
-    fontFamily: 'Roboto',
-  },
-});
+import { Text, Image, View } from '@react-pdf/renderer';
+import styles from './mediaFieldStyles'
 
 const MediaFieldComponent: React.FC<{field: DocumentMediaUploadField}> = ({ field }) => {
   return (

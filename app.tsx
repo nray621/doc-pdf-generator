@@ -1,6 +1,6 @@
 import React from 'react'
 import moment from 'moment'
-import ReactPDF from '@react-pdf/renderer';
+import ReactPDF, { Font } from '@react-pdf/renderer';
 import { DriverDocumentQuery } from './src/types'
 import { parseDocumentFields } from './src/util'
 import DocumentComponent from './src/components/DocumentComponent/DocumentComponent';
@@ -22,6 +22,10 @@ if (!sampleJSON?.data) {
   console.error('Invalid JSON')
   process.exit(1)
 }
+
+// Register font and bold font
+Font.register({ family: 'Roboto', src: 'src/font/Roboto-Regular.ttf' });
+Font.register({ family: 'Roboto-bold', src: 'src/font/Roboto-Medium.ttf' });
 
 const docQueryData: DriverDocumentQuery = sampleJSON.data
 const document = docQueryData.group?.organization.driverDocument

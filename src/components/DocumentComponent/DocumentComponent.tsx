@@ -1,54 +1,10 @@
 import React from 'react'
-import { Page, Text, View, Document, Font, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, Document } from '@react-pdf/renderer';
 import GenericFieldComponent from '../GenericFieldComponent/GenericFieldComponent'
 import { DocumentField, DocumentMediaUploadField } from '../../types'
 import SimpleFieldItem from '../SimpleFieldComponent/SimpleFieldComponent';
 import MediaFieldComponent from '../MediaFieldComponent/MediaFieldComponent';
-
-// Register font and bold font
-Font.register({ family: 'Roboto', src: 'src/font/Roboto-Regular.ttf' });
-Font.register({ family: 'Roboto-bold', src: 'src/font/Roboto-Medium.ttf' });
-
-// Create styles
-const styles = StyleSheet.create({
-  page: {
-    padding: 20,
-    flexDirection: 'column',
-    fontSize: 11,
-    fontFamily: 'Roboto',
-  },
-  section: {
-    paddingVertical: 15,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    borderBottomWidth: 1,
-    borderBottomColor: '#EAEAEA',
-  },
-  headerContainer: {
-    flexWrap: 'nowrap',
-    justifyContent: "space-between",
-  },
-  header: {
-    fontSize: 32,
-    textAlign: "left",
-    fontFamily: 'Roboto-bold'
-  },
-  subheader: {
-    fontFamily: 'Roboto-bold',
-    width: '100%',
-    fontSize: 16,
-    marginBottom: 15,
-  },
-  pageNumber: {
-    position: 'absolute',
-    fontSize: 12,
-    bottom: 30,
-    left: 0,
-    right: 0,
-    textAlign: 'center',
-    color: '#A1A3A6',
-  },
-});
+import styles from './documentStyles'
 
 interface Props {
   orgName?: string | null,

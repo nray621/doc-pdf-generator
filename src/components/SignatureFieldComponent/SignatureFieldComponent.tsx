@@ -1,41 +1,8 @@
 import { DocumentSignatureField } from "../../types"
 import React from 'react'
-import { Text, View, Image, StyleSheet } from '@react-pdf/renderer';
+import { Text, View, Image } from '@react-pdf/renderer';
 import moment from "moment";
-
-
-const styles = StyleSheet.create({
-  fieldItem: {
-    marginBottom: 10,
-    width: '50%',
-  },
-  image: {
-    marginVertical: 5,
-    width: '100%',
-  },
-  labelText: {
-    fontFamily: 'Roboto-bold',
-    marginBottom: 5,
-  },
-  legalTextContainer: {
-    flexDirection: 'row',
-    marginRight: 15,
-  },
-  legalText: {
-    flex: 1,
-    fontSize: 8,
-    marginLeft: 10,
-  },
-  legalTextCheckIcon: {
-    height: 18,
-    width: 18,
-  },
-  signedAtText: {
-    color: '#A1A3A6',
-    marginTop: 5,
-    marginBottom: 10,
-  }
-});
+import styles from './signatureFieldStyles'
 
 const SignatureFieldComponent: React.FC<{field: DocumentSignatureField}> = ({ field }) => {
   return (

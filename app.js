@@ -2,11 +2,18 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
 var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 const react_1 = __importDefault(require("react"));
 const moment_1 = __importDefault(require("moment"));
-const renderer_1 = __importDefault(require("@react-pdf/renderer"));
+const renderer_1 = __importStar(require("@react-pdf/renderer"));
 const util_1 = require("./src/util");
 const DocumentComponent_1 = __importDefault(require("./src/components/DocumentComponent/DocumentComponent"));
 const path = process.argv[2] || './demo.json';
@@ -25,6 +32,9 @@ if (!(sampleJSON === null || sampleJSON === void 0 ? void 0 : sampleJSON.data)) 
     console.error('Invalid JSON');
     process.exit(1);
 }
+// Register font and bold font
+renderer_1.Font.register({ family: 'Roboto', src: 'src/font/Roboto-Regular.ttf' });
+renderer_1.Font.register({ family: 'Roboto-bold', src: 'src/font/Roboto-Medium.ttf' });
 const docQueryData = sampleJSON.data;
 const document = (_a = docQueryData.group) === null || _a === void 0 ? void 0 : _a.organization.driverDocument;
 if (!document) {
